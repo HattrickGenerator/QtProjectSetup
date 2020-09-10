@@ -1,0 +1,4 @@
+
+bool LibraryTestFunction(){
+    return true;
+}

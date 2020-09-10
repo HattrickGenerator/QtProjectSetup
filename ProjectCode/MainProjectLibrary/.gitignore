@@ -1,0 +1,5 @@
+Makefile
+*.cmake
+/CMakeFiles/
+/*_autogen/
+*.so

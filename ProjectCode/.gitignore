@@ -1,0 +1,22 @@
+/build/
+
+/.metadata/
+/CMakeFiles/
+install_manifest.txt
+
+/*_autogen/
+
+Makefile
+CMakeCache.txt
+*.cmake
+*.user
+
+#Eclipse specifics
+*.project
+*.cproject
+
+/.settings/
+
+
+/lib/
+/bin/

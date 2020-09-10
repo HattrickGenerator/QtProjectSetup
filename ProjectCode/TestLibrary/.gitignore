@@ -1,0 +1,11 @@
+Makefile
+TestCase
+*.cmake
+/CMakeFiles/
+/*_autogen/
+*.so
+
+#GoogleTestSpecifics
+/googletest-build/
+/googletest-download/
+/googletest-src/
