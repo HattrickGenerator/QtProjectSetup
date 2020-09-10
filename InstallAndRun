@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+
+cd ProjectCode
+cmake CMakeLists.txt
+make install
+
+cd .. 
+cd build
+./TestCase
+QtProject
