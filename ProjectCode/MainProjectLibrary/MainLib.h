@@ -23,7 +23,8 @@ public:
      layout = new QVBoxLayout();
      containerWidget = new Widget3DContainer(this);
     layout->addWidget(containerWidget);
-     mainWidget->setLayout(layout);
+
+    mainWidget->setLayout(layout);
      setCentralWidget(mainWidget);
 
     }
