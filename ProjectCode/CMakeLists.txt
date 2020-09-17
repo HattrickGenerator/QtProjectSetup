@@ -12,15 +12,26 @@ set(testLib TestLibrary)
 project (${ProjectName})
 
 #Add packages and append them to list for includes
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Qml Quick QuickWidgets 3DCore 3DExtras REQUIRED)
 
 list( APPEND QT_LIBRARIES
 Qt5::Core 
 Qt5::Widgets
+Qt5::Qml
+Qt5::Quick
+Qt5::QuickWidgets
+Qt5::3DCore
+Qt5::3DExtras
 )
 
 
 #####
+
+#Packages
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../${buildDir})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../${buildDir})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../${buildDir})
@@ -59,10 +70,6 @@ add_subdirectory("${CMAKE_BINARY_DIR}/${testLib}/googletest-src"
 add_subdirectory(${testLib})
 ############
 
-#Packages
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 
 
 
