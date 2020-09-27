@@ -19,16 +19,25 @@
 #include <QPropertyAnimation>
 #include "OrbitTransformController.h"
 
+#pragma once
 
 class Widget3DContainer : public QWidget
 {
-    QOBJECT_H
+    Q_OBJECT
 
 public:
     Widget3DContainer(QWidget *parent = nullptr);
-    virtual ~Widget3DContainer();
+
+public slots:
+    void changeSpeed(int percent);
 
 private:
     Qt3DCore::QEntity *createScene();
-   QWidget *container;
+    Qt3DCore::QEntity *scene;
+    Qt3DExtras::Qt3DWindow* view;
+    QWidget *container;
+
+    //Speed
+    QPropertyAnimation *sphereRotateTransformAnimation;
+    double rotationFrequency = 0.5;
 };

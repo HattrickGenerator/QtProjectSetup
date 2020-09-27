@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QCoreApplication>
-#include <QMainWindow>
-#include "MainLib.h"
+#include "CustomMainWindow.h"
 
 //Example from Qt Website to differentiate between GUI and non GUI version
  QCoreApplication* createApplication(int &argc, char *argv[])
