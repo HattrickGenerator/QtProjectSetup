@@ -3,13 +3,20 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Store version into variable
 set(buildDir build)
-set(ProjectName QtProject)
+set(PROJECT_NAME QtProject)
 set(ExectuableCode ExecutableCode)
 set(libProject MainProjectLibrary)
 set(testLib TestLibrary)
 
 
-project (${ProjectName})
+project (${PROJECT_NAME})
+
+#set prefix path for windows builds
+if (MSVC)
+    set(CMAKE_PREFIX_PATH "C://Qt//5.15.1//msvc2019_64//lib//cmake//Qt5")
+endif (MSVC)
+
+
 
 #Add packages and append them to list for includes
 find_package(Qt5 COMPONENTS Core Widgets Qml Quick QuickWidgets 3DCore 3DExtras REQUIRED)
