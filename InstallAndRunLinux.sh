@@ -5,7 +5,6 @@ cd ProjectCode
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=.. -DBUILD_SHARED_LIBS=ON
 make install
 
-cd .. 
-cd build
+cd ../build
 ./TestCase
 ./QtProject
