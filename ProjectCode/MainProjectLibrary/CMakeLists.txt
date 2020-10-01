@@ -6,6 +6,7 @@ TestLibraryFunctionality.h
 CustomMainWindow.h
 Widget3DContainer.h
 OrbitTransformController.h
+TimedOrbitTransformController.h
 Widget3DControlCenter.h
 Central3DWidget.h
 
@@ -14,6 +15,7 @@ util/LabelSlider.h
 
 set(srcFiles
   OrbitTransformController.cpp
+  TimedOrbitTransformController.cpp
     Widget3DContainer.cpp
     Widget3DControlCenter.cpp
     Central3DWidget.cpp

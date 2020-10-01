@@ -6,6 +6,8 @@
 
 #pragma once
 
+
+
 class Widget3DControlCenter : public QWidget
 {
     Q_OBJECT

@@ -53,19 +53,38 @@ Qt3DCore::QEntity * Widget3DContainer::createScene()
     sphereMesh->setRadius(3);
     sphereMesh->setGenerateTangents(true);
 
-    Qt3DCore::QTransform *sphereTransform = new Qt3DCore::QTransform;
-    OrbitTransformController *controller = new OrbitTransformController(sphereTransform);
-    controller->setTarget(sphereTransform);
-    controller->setRadius(20.0f);
+    sphereTransform = new Qt3DCore::QTransform;   //Set up transform for sphere
 
+    /*
+    sphereTransform->setScale3D(QVector3D(1, 1, 1));
+    m_translationBase = QVector3D(5,5,0);
+    sphereTransform->setTranslation(m_translationBase);
+    sphereTransform->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1, 0, 0), 45.0f));
+    */
+
+    controller = new TimedOrbitTransformController(this);
+    controller->setTarget(sphereTransform);
+    controller->setRotationAxis(QVector3D(0, 0, 1));
+    controller->setTranslationBase(QVector3D(0, 15, 0));
+    controller->setUpdateTime(std::chrono::milliseconds(10));
+
+    m_rotationDuration = std::chrono::milliseconds(2000);
+    controller->setRotationDuration(m_rotationDuration);
+
+/*
+    sphereRotateTransformAnimation = new QPropertyAnimation(sphereTransform);
+    controller = new OrbitTransformController(sphereTransform);
+    controller->setTarget(sphereTransform);
+       controller->setRadius(20.0f);
     sphereRotateTransformAnimation = new QPropertyAnimation(sphereTransform);
     sphereRotateTransformAnimation->setTargetObject(controller);
     sphereRotateTransformAnimation->setPropertyName("angle");
     sphereRotateTransformAnimation->setStartValue(QVariant::fromValue(0));
     sphereRotateTransformAnimation->setEndValue(QVariant::fromValue(360));
-    sphereRotateTransformAnimation->setDuration( int(1/(rotationFrequency*0.5) * 1e3));
+    sphereRotateTransformAnimation->setDuration(int(( 1/(m_rotationFrequency_Hz * 0.5)* 1e3)));
     sphereRotateTransformAnimation->setLoopCount(-1);
     sphereRotateTransformAnimation->start();
+*/
 
     sphereEntity->addComponent(sphereMesh);
     sphereEntity->addComponent(sphereTransform);
@@ -78,8 +97,13 @@ Qt3DCore::QEntity * Widget3DContainer::createScene()
 // Slots
 void Widget3DContainer::changeSpeed(int percent)
 {
-     auto currentVal = sphereRotateTransformAnimation->currentValue();
-     sphereRotateTransformAnimation->setDuration(int(1/(rotationFrequency *percent/100)* 1e3));
-     //sphereRotateTransformAnimation->updateCurrentValue(currentVal);
+    auto tempDuration = std::chrono::milliseconds( -95 * percent + 10000 );
 
+  /*  m_rotationDuration = std::chrono::milliseconds(
+                long(float(m_rotationDuration.count()) / (percent+1))
+                );
+*/
+    controller->setRotationDuration(tempDuration );
 }
+
+

@@ -79,6 +79,8 @@ public:
     void setAngle(float angle);
     float angle() const;
 
+
+
 signals:
     void targetChanged();
     void radiusChanged();

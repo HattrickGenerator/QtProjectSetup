@@ -4,6 +4,8 @@
 #include <Qt3DExtras/QOrbitCameraController>
 
 #include "OrbitTransformController.h"
+#include "TimedOrbitTransformController.h"
+
 #include <Qt3DCore/QEntity>
 #include <Qt3DRender/QCamera>
 #include <Qt3DRender/QCameraLens>
@@ -17,6 +19,8 @@
 #include <Qt3DExtras/QSphereMesh>
 #include <Qt3DExtras/QTorusMesh>
 #include <QPropertyAnimation>
+#include <QTimer>
+
 #include "OrbitTransformController.h"
 
 #pragma once
@@ -38,6 +42,10 @@ private:
     QWidget *container;
 
     //Speed
-    QPropertyAnimation *sphereRotateTransformAnimation;
-    double rotationFrequency = 0.5;
+    TimedOrbitTransformController *controller;
+    Qt3DCore::QTransform *sphereTransform;
+
+    QQuaternion m_incrementRotationQuaternion;
+    std::chrono::milliseconds m_rotationDuration;
+
 };
