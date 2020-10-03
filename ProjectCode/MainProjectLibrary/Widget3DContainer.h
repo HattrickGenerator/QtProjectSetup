@@ -19,7 +19,7 @@
 #include <Qt3DExtras/QSphereMesh>
 #include <Qt3DExtras/QTorusMesh>
 #include <QPropertyAnimation>
-#include <QTimer>
+#include <cmath>
 
 #include "OrbitTransformController.h"
 
@@ -33,19 +33,16 @@ public:
     Widget3DContainer(QWidget *parent = nullptr);
 
 public slots:
-    void changeSpeed(int percent);
+    void changeOrbitSpeed(int percent);
+    void changeRotationSpeed(int percent);
 
 private:
     Qt3DCore::QEntity *createScene();
-    Qt3DCore::QEntity *scene;
-    Qt3DExtras::Qt3DWindow* view;
     QWidget *container;
 
     //Speed
     TimedOrbitTransformController *controller;
-    Qt3DCore::QTransform *sphereTransform;
 
-    QQuaternion m_incrementRotationQuaternion;
-    std::chrono::milliseconds m_rotationDuration;
+    long calcLogPercentageTransform(long percent);
 
 };

@@ -6,8 +6,8 @@ Widget3DContainer::Widget3DContainer(QWidget *parent) :QWidget(parent)
 {
     QHBoxLayout* layout= new QHBoxLayout(this);
 
-    view = new Qt3DExtras::Qt3DWindow();
-    scene = createScene();
+    Qt3DExtras::Qt3DWindow*   view = new Qt3DExtras::Qt3DWindow();
+    Qt3DCore::QEntity* scene = createScene();
 
     // Camera
     Qt3DRender::QCamera * camera = view->camera();
@@ -43,7 +43,7 @@ Qt3DCore::QEntity * Widget3DContainer::createScene()
 
     Qt3DCore::QTransform *torusTransform = new Qt3DCore::QTransform;
     torusTransform->setScale3D(QVector3D(1.5, 1, 0.5));
-    torusTransform->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1, 0, 0), 45.0f));
+    torusTransform->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1, 0, 0), 0));
 
     torusEntity->addComponent(torusMesh);
     torusEntity->addComponent(torusTransform);
@@ -53,39 +53,26 @@ Qt3DCore::QEntity * Widget3DContainer::createScene()
     sphereMesh->setRadius(3);
     sphereMesh->setGenerateTangents(true);
 
-    sphereTransform = new Qt3DCore::QTransform;   //Set up transform for sphere
+    Qt3DCore::QTransform* sphereTransform = new Qt3DCore::QTransform;   //Set up transform for sphere
 
-    /*
-    sphereTransform->setScale3D(QVector3D(1, 1, 1));
-    m_translationBase = QVector3D(5,5,0);
-    sphereTransform->setTranslation(m_translationBase);
-    sphereTransform->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1, 0, 0), 45.0f));
-    */
+
 
     controller = new TimedOrbitTransformController(this);
-    controller->setTarget(sphereTransform);
-    controller->setRotationAxis(QVector3D(0, 0, 1));
-    controller->setTranslationBase(QVector3D(0, 15, 0));
+    controller->setTarget(torusTransform);
+
+    controller->setOrbitRotAxis(QVector3D(0, 1,0));
+    controller->setOrbitTranslationBase(QVector3D(0, 0, 15));
+    controller->setOrbitDuration(std::chrono::milliseconds(3000));
+
+    controller->setRotationBaseQuat(QQuaternion::fromAxisAndAngle(QVector3D(0, 0, 1), 90.0f));
+    controller->setRotationRotAxis(QVector3D(0, 1, 0));
+    controller->setRotationDuration(std::chrono::milliseconds(3000));
+
     controller->setUpdateTime(std::chrono::milliseconds(10));
 
-    m_rotationDuration = std::chrono::milliseconds(2000);
-    controller->setRotationDuration(m_rotationDuration);
 
-/*
-    sphereRotateTransformAnimation = new QPropertyAnimation(sphereTransform);
-    controller = new OrbitTransformController(sphereTransform);
-    controller->setTarget(sphereTransform);
-       controller->setRadius(20.0f);
-    sphereRotateTransformAnimation = new QPropertyAnimation(sphereTransform);
-    sphereRotateTransformAnimation->setTargetObject(controller);
-    sphereRotateTransformAnimation->setPropertyName("angle");
-    sphereRotateTransformAnimation->setStartValue(QVariant::fromValue(0));
-    sphereRotateTransformAnimation->setEndValue(QVariant::fromValue(360));
-    sphereRotateTransformAnimation->setDuration(int(( 1/(m_rotationFrequency_Hz * 0.5)* 1e3)));
-    sphereRotateTransformAnimation->setLoopCount(-1);
-    sphereRotateTransformAnimation->start();
-*/
 
+    controller->start();
     sphereEntity->addComponent(sphereMesh);
     sphereEntity->addComponent(sphereTransform);
     sphereEntity->addComponent(material);
@@ -93,16 +80,24 @@ Qt3DCore::QEntity * Widget3DContainer::createScene()
     return rootEntity;
 }
 
+long Widget3DContainer::calcLogPercentageTransform(long percent)
+{
+    return long ( -4490 * std::log10(percent) + 10000 );
+}
+
 
 // Slots
-void Widget3DContainer::changeSpeed(int percent)
+void Widget3DContainer::changeOrbitSpeed(int percent)
 {
-    auto tempDuration = std::chrono::milliseconds( -95 * percent + 10000 );
+    auto tempDuration = std::chrono::milliseconds(calcLogPercentageTransform(percent));
 
-  /*  m_rotationDuration = std::chrono::milliseconds(
-                long(float(m_rotationDuration.count()) / (percent+1))
-                );
-*/
+    controller->setOrbitDuration(tempDuration );
+}
+
+void Widget3DContainer::changeRotationSpeed(int percent)
+{
+    auto tempDuration = std::chrono::milliseconds(calcLogPercentageTransform(percent));
+
     controller->setRotationDuration(tempDuration );
 }
 

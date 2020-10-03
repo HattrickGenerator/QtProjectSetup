@@ -21,5 +21,6 @@ Central3DWidget::Central3DWidget(QWidget * parent) : QWidget(parent)
 
 void Central3DWidget::connectWidgets()
 {
-    QObject::connect(controlWidget, &Widget3DControlCenter::SpeedSliderValChanged, containerWidget, &Widget3DContainer::changeSpeed);
+    QObject::connect(controlWidget, &Widget3DControlCenter::OrbitSpeedSliderValChanged, containerWidget, &Widget3DContainer::changeOrbitSpeed);
+    QObject::connect(controlWidget, &Widget3DControlCenter::RotationSpeedSliderValChanged, containerWidget, &Widget3DContainer::changeRotationSpeed);
 }

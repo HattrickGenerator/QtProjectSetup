@@ -2,12 +2,18 @@
 
 TimedOrbitTransformController::TimedOrbitTransformController(QObject *parent): QObject(parent)
 {
-    timer = new QTimer(this);
-    timer->setInterval(m_updateRate);
+    m_timer.setInterval(m_updateTime);
 
-    m_incrementRotationQuaternion = QQuaternion::fromAxisAndAngle(m_rotAxis, getUpdateAngle());
-    connect(timer, &QTimer::timeout, this, &TimedOrbitTransformController::timerUpdate);
-    timer->start();
+    //Set up orbit
+
+    //Set up rotation
+    //m_incrementRotationQuaternion = QQuaternion::fromAxisAndAngle(m_orbitRotAxis, getUpdateAngle(m_orbitDuration));
+
+    //Set up increment Quaternions
+    setIncrementQuaternions();
+
+    //Connect
+    connect(&m_timer, &QTimer::timeout, this, &TimedOrbitTransformController::timerUpdate);
 }
 
 
@@ -16,21 +22,23 @@ void  TimedOrbitTransformController::timerUpdate()
 {
     if(m_target != nullptr)
     {
-        m_translationBase = m_incrementRotationQuaternion.rotatedVector(m_translationBase);
-        m_target->setTranslation(m_translationBase);
+        m_orbitTranslationBase = m_incrementOrbitQuaternion.rotatedVector(m_orbitTranslationBase);
+        m_target->setTranslation(m_orbitTranslationBase);
+
+        m_rotationBaseQuat =  m_incrementRotationQuaternion * m_rotationBaseQuat;
+        m_target->setRotation(m_rotationBaseQuat);
     }
 }
 
-float TimedOrbitTransformController::getUpdateAngle() const
+float TimedOrbitTransformController::getUpdateAngle(std::chrono::milliseconds periodDuration) const
 {
-    return 1/float(m_rotationDuration.count()) * m_updateRate.count() *360;
-
-    //return (m_rotationFrequency_Hz * m_updateRate)/1000 * 360;
+    return 1/float(periodDuration.count()) * m_updateTime.count() *360;
 }
 
-void TimedOrbitTransformController::setIncrementQuaternion()
+void TimedOrbitTransformController::setIncrementQuaternions()
 {
-    m_incrementRotationQuaternion = QQuaternion::fromAxisAndAngle(m_rotAxis, getUpdateAngle());
+    m_incrementOrbitQuaternion = QQuaternion::fromAxisAndAngle(m_orbitRotAxis, getUpdateAngle(m_orbitDuration));
+    m_incrementRotationQuaternion = QQuaternion::fromAxisAndAngle(m_rotationRotAxis, getUpdateAngle(m_rotationDuration));
 }
 
 void TimedOrbitTransformController::setTarget(Qt3DCore::QTransform *target)
@@ -40,27 +48,54 @@ void TimedOrbitTransformController::setTarget(Qt3DCore::QTransform *target)
 
 void TimedOrbitTransformController::setUpdateTime(std::chrono::milliseconds updateTime)
 {
-    m_rotationDuration = updateTime;
-    timer->setInterval(m_updateRate);
-    setIncrementQuaternion();
+    m_updateTime = updateTime;
+    m_timer.setInterval(m_updateTime);
+    setIncrementQuaternions();
 }
 
-void TimedOrbitTransformController::setRotationDuration(std::chrono::milliseconds rotationDuration)
+void TimedOrbitTransformController::setOrbitDuration(std::chrono::milliseconds rotationDuration)
 {
-    m_rotationDuration = rotationDuration;
-    setIncrementQuaternion();
+    m_orbitDuration = rotationDuration;
+    setIncrementQuaternions();
 }
 
-void TimedOrbitTransformController::setRotationAxis(const QVector3D &vec)
+void TimedOrbitTransformController::setRotationRotAxis(const QVector3D &vec)
 {
-    m_rotAxis = vec;
-    setIncrementQuaternion();
+    m_rotationRotAxis = vec;
+    setIncrementQuaternions();
+}
+
+void TimedOrbitTransformController::setRotationBaseQuat(const QQuaternion &quat)
+{
+    m_rotationBaseQuat = quat;
+}
+
+void TimedOrbitTransformController::setRotationDuration(std::chrono::milliseconds duration)
+{
+    m_rotationDuration = duration;
+    setIncrementQuaternions();
+}
+
+void TimedOrbitTransformController::start()
+{
+    m_timer.start();
+}
+
+void TimedOrbitTransformController::stop()
+{
+    m_timer.stop();
+}
+
+void TimedOrbitTransformController::setOrbitRotAxis(const QVector3D &vec)
+{
+    m_orbitRotAxis = vec;
+    setIncrementQuaternions();
 }
 
 
-void TimedOrbitTransformController::setTranslationBase(const QVector3D &vec)
+void TimedOrbitTransformController::setOrbitTranslationBase(const QVector3D &vec)
 {
-    m_translationBase = vec;
-    setIncrementQuaternion();
+    m_orbitTranslationBase = vec;
+    setIncrementQuaternions();
 }
 

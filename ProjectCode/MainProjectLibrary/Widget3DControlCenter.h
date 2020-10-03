@@ -17,10 +17,12 @@ public:
 
 
 signals:
-    void SpeedSliderValChanged(int); //Signal
+    void OrbitSpeedSliderValChanged(int); //Signal
+    void RotationSpeedSliderValChanged(int); //Signal
 
 private slots:
-    void speedSliderValChanged(int);    //Slot
+    void orbitSpeedSliderValChanged(int);    //Slot
+    void rotationSpeedSliderValChanged(int);    //Slot
 
 
 
@@ -30,5 +32,7 @@ private:
     void connectWidgets();
 
     QVBoxLayout layout;
-    LabelSlider slider{"Rotation Speed: "};
+    LabelSlider orbitSpeedSlider{"Orbit Speed: "};
+    LabelSlider rotationSpeedSlider{"Rotation Speed: "};
 };
+
