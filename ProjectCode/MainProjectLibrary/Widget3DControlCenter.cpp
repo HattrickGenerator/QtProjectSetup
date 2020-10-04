@@ -6,6 +6,13 @@ Widget3DControlCenter::Widget3DControlCenter(QWidget *parent) :QWidget(parent)
    rotationSpeedSlider.SetValue(49);
 
 
+    orbitSpeedSlider.setTickInterval(10);
+    rotationSpeedSlider.setTickInterval(10);
+
+    orbitSpeedSlider.setTickPosition(QSlider::TicksBelow);
+    rotationSpeedSlider.setTickPosition(QSlider::TicksBelow);
+
+
    layout.addWidget(&orbitSpeedSlider);
    layout.addWidget(&rotationSpeedSlider);
 

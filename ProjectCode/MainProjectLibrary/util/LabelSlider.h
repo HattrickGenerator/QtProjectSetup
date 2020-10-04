@@ -17,7 +17,9 @@ public:
 
     void SetLabel(const QString & label);
     void SetValue(int val);
-
+    void setTickInterval(int ti);
+    void setTickPosition(QSlider::TickPosition position);
+    int tickInterval() const;
 
 signals:
     void valueChanged(int val);

@@ -29,6 +29,21 @@ void LabelSlider::SetValue(int value)
     m_slider.setValue(value);
 }
 
+void LabelSlider::setTickInterval(int ti)
+{
+    m_slider.setTickInterval(ti);
+}
+
+void LabelSlider::setTickPosition(QSlider::TickPosition position)
+{
+    m_slider.setTickPosition(position);
+}
+
+int LabelSlider::tickInterval() const
+{
+    return m_slider.tickInterval();
+}
+
 void LabelSlider::connect()
 {
     QObject::connect(&m_slider, &QSlider::valueChanged, this, &LabelSlider::sliderValueChanged);
