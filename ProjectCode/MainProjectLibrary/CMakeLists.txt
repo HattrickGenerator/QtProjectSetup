@@ -28,7 +28,7 @@ INCLUDE_DIRECTORIES(util)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_library(${libProject} SHARED ${hdrFiles} ${srcFiles})
+add_library(${libProject} STATIC ${hdrFiles} ${srcFiles})
 
 set_target_properties(${libProject} PROPERTIES LINKER_LANGUAGE CXX)
 
