@@ -1,34 +1,55 @@
 #include "Widget3DContainer.h"
 
-
-
 Widget3DContainer::Widget3DContainer(QWidget *parent) :QWidget(parent)
 {
     QHBoxLayout* layout= new QHBoxLayout(this);
 
-    Qt3DExtras::Qt3DWindow*   view = new Qt3DExtras::Qt3DWindow();
+    m_view = new Window3DSubclass();
     Qt3DCore::QEntity* scene = createScene();
 
     // Camera
-    Qt3DRender::QCamera * camera = view->camera();
+    Qt3DRender::QCamera * camera = m_view->camera();
     camera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
     camera->setPosition(QVector3D(0, 0, 40.0f));
     camera->setViewCenter(QVector3D(0, 0, 0));
 
     // For camera controls
+    /*
     Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(scene);
     camController->setLinearSpeed(50.0f);
     camController->setLookSpeed(180.0f);
     camController->setCamera(camera);
+*/
 
-    view->setRootEntity(scene);
-    QWidget * container = QWidget::createWindowContainer(view);
+    m_view->setRootEntity(scene);
+
+    QWidget * container = QWidget::createWindowContainer(m_view);
     layout->addWidget(container);
     setLayout(layout);
 
 }
 
 
+//------------------------------------------------------------------------------
+//void Widget3DContainer::mouseMoveEvent(QMouseEvent *event)
+//------------------------------------------------------------------------------
+/*
+{
+
+    int dx = event->x() - m_lastPos.x();
+    int dy = event->y() - m_lastPos.y();
+
+    if (event->buttons() & Qt::LeftButton) {
+        setXRotation(xRot + 8 * dy);
+        setYRotation(yRot + 8 * dx);
+    } else if (event->buttons() & Qt::RightButton) {
+        //    setXTranslation(xTranslation + dx);
+        //    setYTranslation(yTranslation + dy);
+    }
+    m_lastPos = event->pos();
+
+}
+*/
 
 Qt3DCore::QEntity * Widget3DContainer::createScene()
 {
@@ -77,6 +98,8 @@ Qt3DCore::QEntity * Widget3DContainer::createScene()
     sphereEntity->addComponent(sphereTransform);
     sphereEntity->addComponent(material);
 
+
+
     return rootEntity;
 }
 
@@ -84,7 +107,6 @@ long Widget3DContainer::calcLogPercentageTransform(long percent)
 {
     return long ( -4490 * std::log10(percent) + 10000 );
 }
-
 
 // Slots
 void Widget3DContainer::changeOrbitSpeed(int percent)

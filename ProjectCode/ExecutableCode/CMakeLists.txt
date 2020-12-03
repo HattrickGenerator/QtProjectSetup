@@ -8,6 +8,8 @@ ${libProject}
 )
 
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
+
 if(WIN32)
 
 #A bit hacky solution: As visual studio has its generator based approach, it is very difficult to find out if we are in debug or release mode.

@@ -19,9 +19,11 @@
 #include <Qt3DExtras/QSphereMesh>
 #include <Qt3DExtras/QTorusMesh>
 #include <QPropertyAnimation>
+#include <QMouseEvent>
 #include <cmath>
 
 #include "OrbitTransformController.h"
+#include "Window3DSubclass.h"
 
 #pragma once
 
@@ -37,6 +39,12 @@ public slots:
     void changeRotationSpeed(int percent);
 
 private:
+    //void mousePressEvent(QMouseEvent *event) override ;
+    //void mouseMoveEvent(QMouseEvent *event) override;
+
+    //bool eventFilter(QObject *obj, QEvent *event);
+
+    Window3DSubclass * m_view;
     Qt3DCore::QEntity *createScene();
     QWidget *container;
 
@@ -44,5 +52,16 @@ private:
     TimedOrbitTransformController *controller;
 
     long calcLogPercentageTransform(long percent);
+
+
+    //Rotation stuff
+    void setXRotation(int angle);
+    void setYRotation(int angle);
+    static void qNormalizeAngle(int &angle);
+
+    QPoint m_lastPos = QPoint(0,0);
+    int xRot = 0;
+    int yRot = 0;
+    int zRot = 0;
 
 };

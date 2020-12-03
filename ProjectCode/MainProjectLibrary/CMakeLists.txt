@@ -9,7 +9,7 @@ OrbitTransformController.h
 TimedOrbitTransformController.h
 Widget3DControlCenter.h
 Central3DWidget.h
-
+Window3DSubclass.h
 util/LabelSlider.h
 )
 
@@ -19,7 +19,7 @@ set(srcFiles
     Widget3DContainer.cpp
     Widget3DControlCenter.cpp
     Central3DWidget.cpp
-
+Window3DSubclass.cpp
 
     util/LabelSlider.cpp
 )
@@ -29,6 +29,8 @@ INCLUDE_DIRECTORIES(util)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_library(${libProject} STATIC ${hdrFiles} ${srcFiles})
+
+set_property(TARGET ${libProject} PROPERTY CXX_STANDARD 14)
 
 set_target_properties(${libProject} PROPERTIES LINKER_LANGUAGE CXX)
 
