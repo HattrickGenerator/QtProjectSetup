@@ -8,7 +8,7 @@ ${libProject}
 )
 
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD ${CppVersion})
 
 if(WIN32)
 

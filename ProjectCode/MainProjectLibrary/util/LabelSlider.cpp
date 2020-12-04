@@ -54,8 +54,22 @@ void LabelSlider::sliderValueChanged(int val)
     emit valueChanged(val);
 }
 
+bool LabelSlider::eventFilter(QObject *watched, QEvent *event)
+{
+
+    if (event->type() == QEvent::KeyRelease )
+    {
+        int d = 1;
+    }
+
+    return false;
+
+}
+
 void LabelSlider::initWidget()
 {
+    installEventFilter(this);   //TODO: just for short term testing
+
     m_layout = m_orientation == Qt::Horizontal ? static_cast<QBoxLayout*>(new QHBoxLayout(this)) :  static_cast<QBoxLayout*>(new QVBoxLayout(this)) ;
     m_slider.setOrientation(m_orientation);
 

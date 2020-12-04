@@ -1,4 +1,4 @@
 
-bool LibraryTestFunction(){
+bool LibraryTestLinkFunction(){
     return true;
 }

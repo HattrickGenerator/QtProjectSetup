@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QSlider>
 #include <QLabel>
+#include <QEvent>
 
 #pragma once
 
@@ -29,6 +30,8 @@ private slots:
 
 
 private:
+    bool eventFilter(QObject *watched, QEvent *event) override; //TODO: just for short term testing
+
    void initWidget();
    void connect();
 
@@ -38,4 +41,6 @@ private:
     QLabel m_label;
     enum Qt::Orientation m_orientation = Qt::Horizontal;
 
+    //Friend
+    friend class LabelSliderTestFixture;
 };

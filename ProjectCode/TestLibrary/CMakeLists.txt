@@ -1,11 +1,21 @@
 
 project(TestCase)
 
-set(srcFiles
-TestLib.cpp
-LinkTest.cpp
+set(hdrFiles
+QAppTestSetup.h
+LabelSliderTestFixture.h
 )
 
-add_executable(TestCase ${srcFiles})
+
+set(srcFiles
+TestLinkLibrary.cpp
+TestLib.cpp
+QtTestsUtil.cpp
+)
+
+add_executable(TestCase ${hdrFiles} ${srcFiles})
+
+
+set_property(TARGET TestCase PROPERTY CXX_STANDARD ${CppVersion})
 
 target_link_libraries(TestCase gtest gtest_main ${libProject} )

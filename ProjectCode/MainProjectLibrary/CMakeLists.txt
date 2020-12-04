@@ -30,7 +30,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_library(${libProject} STATIC ${hdrFiles} ${srcFiles})
 
-set_property(TARGET ${libProject} PROPERTY CXX_STANDARD 14)
+set_property(TARGET ${libProject} PROPERTY CXX_STANDARD ${CppVersion})
+
 
 set_target_properties(${libProject} PROPERTIES LINKER_LANGUAGE CXX)
 

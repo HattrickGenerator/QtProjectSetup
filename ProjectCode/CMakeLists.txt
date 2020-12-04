@@ -11,6 +11,8 @@ set(testLib TestLibrary)
 
 project (${PROJECT_NAME})
 
+set(CppVersion "17")
+
 #set prefix path for windows builds
 if (MSVC)
     set(CMAKE_PREFIX_PATH "C://Qt//5.15.1//msvc2019_64//lib//cmake//Qt5")
@@ -19,10 +21,11 @@ endif (MSVC)
 
 
 #Add packages and append them to list for includes
-find_package(Qt5 COMPONENTS Core Widgets Qml Quick QuickWidgets 3DCore 3DExtras REQUIRED)
+find_package(Qt5 COMPONENTS Test Core Widgets Qml Quick QuickWidgets 3DCore 3DExtras REQUIRED)
 
 list( APPEND QT_LIBRARIES
 Qt5::Core 
+Qt5::Test
 Qt5::Widgets
 Qt5::Qml
 Qt5::Quick
